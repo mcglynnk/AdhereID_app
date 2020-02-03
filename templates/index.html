@@ -13,64 +13,33 @@
     <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="../https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Custom styles for this template-->
     <link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 
-    <!-- For Bokeh -->
-    <link
-            href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.11.min.css"
-            rel="stylesheet" type="text/css">
-    <link
-            href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.11.min.css"
-            rel="stylesheet" type="text/css">
-    <link
-            href="http://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.11.min.css"
-            rel="stylesheet" type="text/css">
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.11.min.js"></script>
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.11.min.js"></script>
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.11.min.js"></script>
-
 </head>
 
-<body id="page-top">
+<body id="page-top" background="static/img/flat,550x550,075,f.u1.jpg">
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">AdhereID</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <!-- Page Content -->
 <div class="container-fluid">
     <div class="card shadow border-success my-3" style="width: auto;">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="mt-5">AdhereID</h2>
-                <p class="lead">Helping doctors predict medication non-adherence</p>
+                <h2 class="mt-3"><strong>AdhereID</strong></h2>
+                <p class="lead">Helping doctors predict medication non-adherence!</p>
             </div>
 
         </div>
 
 
         <!---- Box --------->
-        <form action="http://127.0.0.1:5000/result" method="POST">
-            <div class="container-fluid" style="height: auto;">
+        <div class="container-fluid" style="height: auto;">
+            {#            <form action="http://127.0.0.1:5000/result" method="POST">#}
+            <form action="http://adhere-id.com/result" method="POST">
                 <div class="row">
                     <div class="col">
                         <div class="card shadow  border-success">
@@ -89,13 +58,13 @@
                                             <label for="range1">Age:</label>
                                             <div class="row">
                                                 <div class="col-10">
-                                                    <input type="range" class="custom-range" min="40" max="90" step="1"
+                                                    <input type="range" class="custom-range" min="18" max="90" step="1"
                                                            value="0"
                                                            oninput="amount1.value=range1.value" id="range1"
                                                            name="range1">
                                                 </div>
                                                 <div class="col-auto">
-                                                    <output name="amount1" id="amount1" for="range1">0</output>
+                                                    <output name="amount1" id="amount1" for="range1">18</output>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,7 +74,7 @@
                                             <label for="range2">Number of current prescriptions:</label>
                                             <div class="row">
                                                 <div class="col-10">
-                                                    <input type="range" class="custom-range custom-range-teal" min="0"
+                                                    <input type="range" class="custom-range" min="0"
                                                            max="10"
                                                            step="1"
                                                            value="0"
@@ -136,10 +105,11 @@
                                         <div class="col-sm-2">
                                             <label>Sex:</label>
                                             <div class="btn-group-lg" data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
-                                                    <input type="radio" name="sex" id="sexoption1" value="M"> M
+                                                <label class="btn border-success bg-light">
+                                                    <input type="radio" name="sex" id="sexoption1" value="M"
+                                                           checked> M
                                                 </label>
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="sex" id="sexoption2" value="F"> F
                                                 </label>
                                             </div>
@@ -169,7 +139,7 @@
                                                     <option value='<$50k'>Less than $50k</option>
                                                     <option value='$50k-75k'>$50k-75k</option>
                                                     <option value='>$100k '>Greater than $100k</option>
-                                                    <option value='No response/Unknown'>>No response/Refuse</option>
+                                                    <option value='No response/Unknown'>No response/Refuse</option>
                                                 </div>
                                             </select>
                                         </div>
@@ -186,7 +156,7 @@
                                                 <option value='Very simple'>Very simple</option>
                                                 <option value='Somewhat simple'>Somewhat simple</option>
                                                 <option value='Somewhat complicated'>Somewhat complicated</option>
-                                                <option value='Very complicated'>>Very complicated</option>
+                                                <option value='Very complicated'>Very complicated</option>
                                             </div>
                                         </select>
                                     </div>
@@ -195,11 +165,11 @@
                                         <div class="form-group">
                                             <label>Do you have health insurance?</label>
                                             <div class="btn-group-lg" data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="health_insur" id="heloption1"
-                                                           value="Has health insurance"> Yes
+                                                           value="Has health insurance" checked> Yes
                                                 </label>
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="health_insur" id="heloption2"
                                                            value="No health insurance"> No
                                                 </label>
@@ -212,16 +182,16 @@
                                         <div class="form-group">
                                             <label>Medicare?</label>
                                             <div class="btn-group-lg" data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="medicare" id="medoption1"
-                                                           value="Not eligible"> Not eligible
+                                                           value="Not eligible" checked> Not eligible
                                                 </label>
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="medicare" id="medoption2"
                                                            value="Medicare">
                                                     Yes
                                                 </label>
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="medicare" id="sexoption2"
                                                            value="No medicare">
                                                     No
@@ -247,8 +217,8 @@
                                                 <option value='A great deal'>A great deal</option>
                                                 <option value='Somewhat'>Somewhat</option>
                                                 <option value='Not so much'>Not so much</option>
-                                                <option value='Not at all'>>Not at all</option>
-                                                <option value='Unknown/Refused'>>Not sure/Refused</option>
+                                                <option value='Not at all'>Not at all</option>
+                                                <option value='Unknown/Refused'>Not sure/Refused</option>
 
                                             </div>
                                         </select>
@@ -293,11 +263,11 @@
                                             <label> </label>
                                             <div></div>
                                             <div class="btn-group-lg btn-group">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="ownhome" id="option1"
-                                                           value="Homeowner"> Homeowner
+                                                           value="Homeowner" checked> Homeowner
                                                 </label>
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="radio" name="ownhome" id="option2" value="Renter">
                                                     Renter
                                                 </label>
@@ -333,11 +303,11 @@
                                                 <option value='Retired'>Retired</option>
                                                 <option value='Full-time'>Full-time</option>
                                                 <option value='Part-time'>Part-time</option>
-                                                <option value='Disabled'>>Disabled</option>
-                                                <option value='Homemaker'>>Homemaker</option>
-                                                <option value='Student'>>Student</option>
-                                                <option value='Temp unemployed'>>Temporarily unemployed</option>
-                                                <option value='Other/Refused'>>Other/Refused</option>
+                                                <option value='Disabled'>Disabled</option>
+                                                <option value='Homemaker'>Homemaker</option>
+                                                <option value='Student'>Student</option>
+                                                <option value='Temp unemployed'>Temporarily unemployed</option>
+                                                <option value='Other/Refused'>Other/Refused</option>
 
 
                                             </div>
@@ -378,7 +348,7 @@
                                     <div class="col-auto">
                                         <div class="form-group">
                                             <div class="btn-group-lg " data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="checkbox" name="diabetes" id="coption1"
                                                            value="Yes"> Diabetes
                                                 </label>
@@ -390,7 +360,7 @@
                                     <div class="col-auto">
                                         <div class="form-group">
                                             <div class="btn-group-lg " data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
 
                                                     <input type="checkbox" name="hypertension" id="coption2"
                                                            value="Yes">
@@ -404,7 +374,7 @@
                                     <div class="col-auto">
                                         <div class="form-group">
                                             <div class="btn-group-lg " data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="checkbox" name="lung_cond" id="coption3"
                                                            value="Yes">
                                                     Asthma, bronchitis, emphysema, or any other lung
@@ -418,7 +388,7 @@
                                     <div class="col-auto">
                                         <div class="form-group">
                                             <div class="btn-group-lg " data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
                                                     <input type="checkbox" name="heart_cond" id="coption4"
                                                            value="Yes">
                                                     Heart disease, heart failure or any other heart
@@ -432,7 +402,7 @@
                                     <div class="col-auto">
                                         <div class="form-group">
                                             <div class="btn-group-lg " data-toggle="buttons">
-                                                <label class="btn bg-light border-dark">
+                                                <label class="btn bg-light border-success">
 
                                                     <input type="checkbox" name="hi_cholesterol" id="coption5"
                                                            value="Yes"/>
@@ -448,14 +418,14 @@
 
                                 <div class="row">
                                     <div class="col-auto">
+                                        <label>Optional: Select a medical condition to view more information!</label>
                                         <select class="form-control" name="condition">
                                             <div class="dropdown-menu input-group" data-toggle="dropdown"
                                                  x-placement="top"
                                                  style="position: absolute">
                                                 <option value="Select a condition" SELECTED>Select a condition</option>
                                                 {% for cond in cond_list %}
-                                                    <option value="{{ cond }}" >{{ cond
-                                                            }}</option>
+                                                    <option value="{{ cond }}">{{ cond }}</option>
                                                 {% endfor %}
                                             </div>
                                         </select>
@@ -466,55 +436,48 @@
 
 
                                 <p></p>
-
+                                <p></p>
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <p><input type="submit" value="Submit"/></p>
+                                            <p><input type="submit" class="btn-lg btn-success"
+                                                      value="Submit"/></p>
                                         </div>
                                     </div>
 
                                 </div>
 
 
-                            </form>
-
                             </div>
+                            <!-- /.card-body -->
                         </div>
-
-
+                        <!-- /.card -->
+                        <p></p>
                     </div>
-                    <!-- /.card-body -->
+
                 </div>
-                <!-- /.card -->
-
-            </div>
-
-
+            </form>
+        </div>
     </div>
-</div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../static/js/demo/chart-area-demo.js"></script>
+    <script src="../static/js/demo/chart-pie-demo.js"></script>
 
 
 </div>
-</div>
-
-<!-- Bootstrap core JavaScript-->
-<script src="../static/vendor/jquery/jquery.min.js"></script>
-<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="../static/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
-<script src="../static/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="../static/js/demo/chart-area-demo.js"></script>
-<script src="../static/js/demo/chart-pie-demo.js"></script>
-
 </body>
 
 </html>
