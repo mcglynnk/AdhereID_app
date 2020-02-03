@@ -136,7 +136,7 @@
                                         <div class="col-sm-2">
                                             <label>Sex:</label>
                                             <div class="btn-group-lg" data-toggle="buttons">
-                                                <label class="btn bg-light border-dark" >
+                                                <label class="btn bg-light border-dark">
                                                     <input type="radio" name="sex" id="sexoption1" value="M"> M
                                                 </label>
                                                 <label class="btn bg-light border-dark">
@@ -166,10 +166,10 @@
                                                 <div class="dropdown-menu input-group" data-toggle="dropdown"
                                                      x-placement="top"
                                                      style="position: absolute">
-                                                    <option value='>$50k'>>$50k</option>
+                                                    <option value='<$50k'>Less than $50k</option>
                                                     <option value='$50k-75k'>$50k-75k</option>
-                                                    <option value='>$100k '>>$100k</option>
-                                                    <option value='No response'>>No response/Refuse</option>
+                                                    <option value='>$100k '>Greater than $100k</option>
+                                                    <option value='No response/Unknown'>>No response/Refuse</option>
                                                 </div>
                                             </select>
                                         </div>
@@ -193,40 +193,41 @@
 
                                     <div class="col-sm-3">
                                         <div class="form-group">
-                                        <label>Do you have health insurance?</label>
-                                        <div class="btn-group-lg" data-toggle="buttons">
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="health_insur" id="heloption1" value="Has
-                                                    health
-                                                    insurance"> Yes
-                                            </label>
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="health_insur" id="heloption2"
-                                                       value="No health insurance"> No
-                                            </label>
-                                        </div>
+                                            <label>Do you have health insurance?</label>
+                                            <div class="btn-group-lg" data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="health_insur" id="heloption1"
+                                                           value="Has health insurance"> Yes
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="health_insur" id="heloption2"
+                                                           value="No health insurance"> No
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
 
 
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                        <label>Medicare?</label>
-                                        <div class="btn-group-lg" data-toggle="buttons">
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="medicare" id="medoption1"
-                                                       value="Not eligible"> Not eligible
-                                            </label>
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="medicare" id="medoption2" value="Medicare">
-                                                Yes
-                                            </label>
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="medicare" id="sexoption2" value="No medicare">
-                                                No
-                                            </label>
+                                            <label>Medicare?</label>
+                                            <div class="btn-group-lg" data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="medicare" id="medoption1"
+                                                           value="Not eligible"> Not eligible
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="medicare" id="medoption2"
+                                                           value="Medicare">
+                                                    Yes
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="medicare" id="sexoption2"
+                                                           value="No medicare">
+                                                    No
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
 
 
@@ -234,22 +235,9 @@
 
                                 <p></p>
                                 <div class="row">
-                                    <div class="col-sm-5">
-                                        <label>How difficult is it for you to afford your medication(s)?</label>
-                                        <select class="form-control" name="afford">
-                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
-                                                 x-placement="top"
-                                                 style="position: absolute">
-                                                <option value='Very easy'>Very easy</option>
-                                                <option value='Somewhat easy'>Somewhat easy</option>
-                                                <option value='Somewhat difficult'>Somewhat difficult</option>
-                                                <option value='Very difficult'>>Very difficult</option>
-                                            </div>
-                                        </select>
-                                    </div>
 
 
-                                    <div class="col-sm-7">
+                                    <div class="col-sm-6">
                                         <label>How well do you feel that you understand your health condition(s)
                                             ?</label>
                                         <select class="form-control" name="healthprob">
@@ -265,40 +253,55 @@
                                             </div>
                                         </select>
                                     </div>
+
+                                    <div class="col-sm-6">
+                                        <label>How difficult is it for you to afford your medication?</label>
+                                        <select class="form-control" name="afford_rx">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='Very easy'>Very easy</option>
+                                                <option value='Somewhat easy'>Somewhat easy</option>
+                                                <option value='Somewhat difficult'>Somewhat difficult</option>
+                                                <option value='Very difficult'>Very difficult</option>
+                                            </div>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <p></p>
 
-
                                 <div class="row">
-                                    <div class="col-sm-5">
+                                    <div class="col-sm-4">
                                         <label>How close do you live to a metro area?</label>
                                         <select class="form-control" name="metro">
                                             <div class="dropdown-menu input-group" data-toggle="dropdown"
                                                  x-placement="top"
                                                  style="position: absolute">
                                                 <option value='Center City'>Center City</option>
-                                                <option value='Non-Center City(Metro)'>Non-Center City(Metro)</option>
+                                                <option value='Non-Center City(Metro)'>Non-Center City(Metro)
+                                                </option>
                                                 <option value='Suburban(Metro)'>Suburban(Metro)</option>
-                                                <option value='Non-city'>>Non-city</option>
+                                                <option value='Non-city'>Non-city</option>
                                             </div>
                                         </select>
                                     </div>
 
 
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <div class="form-group">
-                                        <label></label>
-                                        <div class="btn-group-lg btn-group">
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="ownhome" id="option1"
-                                                       value="Homeowner" > Homeowner
-                                            </label>
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="ownhome" id="option2" value="Renter">
-                                                Renter
-                                            </label>
-                                        </div>
+                                            <label> </label>
+                                            <div></div>
+                                            <div class="btn-group-lg btn-group">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="ownhome" id="option1"
+                                                           value="Homeowner"> Homeowner
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="ownhome" id="option2" value="Renter">
+                                                    Renter
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -318,11 +321,7 @@
                                             </div>
                                         </select>
                                     </div>
-
-
                                 </div>
-
-                                <p></p>
 
                                 <div class="row">
                                     <div class="col-sm-5">
@@ -345,18 +344,21 @@
                                         </select>
                                     </div>
 
+
                                     <div class="col-sm-5">
                                         <label>Education:</label>
-                                        <select class="form-control" name="educ">
+                                        <select class="form-control" name="educ" required>
                                             <div class="dropdown-menu input-group" data-toggle="dropdown"
                                                  x-placement="top"
                                                  style="position: absolute">
-                                                <option value='Less than high school '>Less than high school</option>
+                                                <option value='Less than high school'>Less than high school
+                                                </option>
                                                 <option value='High school'>High school</option>
                                                 <option value='Some college'>Some college</option>
-                                                <option value='Technical school/other'>>Technical school/other</option>
+                                                <option value='Technical school/other'>Technical school/other
+                                                </option>
                                                 <option value='College graduate'>College graduate</option>
-                                                <option value='Graduate school or more'>>Graduate school or more
+                                                <option value='Graduate school or more'>Graduate school or more
                                                 </option>
                                             </div>
                                         </select>
@@ -366,50 +368,102 @@
 
                                 <p></p>
 
+                                <div class="row">
+                                    <label>Please indicate if you have any of the following health
+                                        conditions:</label>
+                                </div>
 
+                                <div class="row">
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="checkbox" name="diabetes" id="coption1"
+                                                           value="Yes"> Diabetes
+                                                </label>
+                                                <input type="hidden" name="diabetes" id="coption1" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+
+                                                    <input type="checkbox" name="hypertension" id="coption2"
+                                                           value="Yes">
+                                                    Hypertension
+                                                </label>
+                                                <input type="hidden" name="hypertension" id="coption2" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="checkbox" name="lung_cond" id="coption3"
+                                                           value="Yes">
+                                                    Asthma, bronchitis, emphysema, or any other lung
+                                                    condition
+                                                </label>
+                                                <input type="hidden" name="lung_cond" id="coption3" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="checkbox" name="heart_cond" id="coption4"
+                                                           value="Yes">
+                                                    Heart disease, heart failure or any other heart
+                                                    problem
+                                                </label>
+                                                <input type="hidden" name="heart_cond" id="coption4" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+
+                                                    <input type="checkbox" name="hi_cholesterol" id="coption5"
+                                                           value="Yes"/>
+                                                    High cholesterol
+                                                </label>
+                                                <input type="hidden" name="hi_cholesterol" id="hidden_coption5"
+                                                       value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
 
                                 <div class="row">
                                     <div class="col-auto">
-                                        <div class="form-group">
-                                        <label>Please indicate if you have any of the following health
-                                            conditions:</label>
-                                        <div class="btn-group-lg " data-toggle="buttons" >
-
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="healthcond" id="coption1"
-                                                       value="Yes_diab"> Diabetes
-                                            </label>
-
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="medicare" id="coption2" value="Yes_hyperten">
-                                                Hypertension
-                                            </label>
-
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="medicare" id="coption3" value="Yes_lung">
-                                                Asthma, bronchitis, emphysema, or any other lung
-                                                condition
-                                            </label>
-
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="medicare" id="coption4" value="Yes_heart">
-                                                Heart disease, heart failure or any other heart
-                                                problem
-                                            </label>
-
-                                            <label class="btn bg-light border-dark">
-                                                <input type="radio" name="medicare" id="coption5" value="Yes_chol">
-                                                High cholesterol
-                                            </label>
-                                        </div>
-                                        </div>
+                                        <select class="form-control" name="condition">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value="Select a condition" SELECTED>Select a condition</option>
+                                                {% for cond in cond_list %}
+                                                    <option value="{{ cond }}" >{{ cond
+                                                            }}</option>
+                                                {% endfor %}
+                                            </div>
+                                        </select>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
 
 
                                 </div>
+
 
                                 <p></p>
 
@@ -422,10 +476,8 @@
 
                                 </div>
 
-                                <p></p>
-                                <strong>Risk of non-adherence is low!</strong>
-                                <p></p>
 
+                            </form>
 
                             </div>
                         </div>

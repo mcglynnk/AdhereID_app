@@ -2,24 +2,36 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>App</title>
+    <title>AdhereID</title>
 
     <!-- Custom fonts for this template-->
     <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-            href="../https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
+    <link href="../https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <script href="templates/chart-pie-demo.js"></script>
+
+    <!-- For Bokeh -->
+    <link
+            href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.11.min.css"
+            rel="stylesheet" type="text/css">
+    <link
+            href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.11.min.css"
+            rel="stylesheet" type="text/css">
+    <link
+            href="http://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.11.min.css"
+            rel="stylesheet" type="text/css">
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.11.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.11.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-tables-0.12.11.min.js"></script>
 
 </head>
 
@@ -28,7 +40,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <a class="navbar-brand" href="#">App</a>
+        <a class="navbar-brand" href="#">AdhereID</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -50,114 +62,550 @@
     <div class="card shadow border-success my-3" style="width: auto;">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="mt-5">App</h2>
+                <h2 class="mt-5">AdhereID</h2>
                 <p class="lead">Helping doctors predict medication non-adherence</p>
             </div>
-
         </div>
 
-        <!---- Box --------->
-        <div class="container-fluid" style="height: auto;">
+        <div class="container-fluid" style="height: auto; width: border-box">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <div class="card shadow  border-success">
                         <div class="card-header bg-success">
-                            <h4 class="card-title" style="font-size: 18px !important; line-height: 4px
-                            !important; color: black;  margin-bottom: 5px">
-                                <strong>Select values</strong>
+                            <h4 class="card-title"
+                                style="font-size: 18px !important; color: black;  margin-bottom: 5px">
+                                <strong>  {{ predictions }} </strong>
                             </h4>
                         </div>
                         <div class="card-body">
-                            <form action="http://127.0.0.1:5000/result" method="POST">
+                            {% if show_charts == True %}
+                                <h2> {{ 'Patients with {} report...'.format(result_list[-1]) }}</h2>
 
-                                <div class="form-group">
-                                    <label for="range1">Age:</label>
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <input type="range" class="custom-range" min="40" max="90" step="1"
-                                                   value="0"
-                                                   oninput="amount1.value=range1.value" id="range1" name="range1">
-                                        </div>
-                                        <div class="col-auto">
-                                            <output name="amount1" id="amount1" for="range1">0</output>
-                                        </div>
+                                <div class="row">
+
+                                    <div class="col-4">
+                                        <h4>Medication Cost</h4>
+                                        <canvas id="chart1" width="200" height="200"></canvas>
+
+                                        <script>
+                                      var pieData = [
+                                        {% for item, label, colors in costset %}
+                                          {
+                                            value: {{ item }},
+                                            label: "{{ label }}",
+                                            color : "{{ colors }}"
+                                          },
+                                        {% endfor %}
+                                      ];
+
+                                      // get bar chart canvas
+                                      var mychart = document.getElementById("chart1").getContext("2d");
+                                      steps = 10
+                                      max = {{ max }}
+
+                                      // draw pie chart
+                                      new Chart(document.getElementById("chart1").getContext("2d")).Pie(pieData);
+
+
+
+                                        </script>
+
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label>Sex:</label>
-                                    <div class="btn-group-lg btn-group-toggle" data-toggle="buttons">
-                                        <label class="btn bg-light border-dark" style="width: 50px !important">
-                                            <input type="radio" name="sex" id="sexoption1" value="M"> M
-                                        </label>
-                                        <label class="btn bg-light border-dark" style="width: 50px !important">
-                                            <input type="radio" name="sex" id="sexoption2" value="F"> F
-                                        </label>
+                                    <div class="col-4">
+                                        <h4>Medication Burden</h4>
+                                        <canvas id="chart2" width="200" height="200"></canvas>
+
+                                        <script>
+                                      var pieData = [
+                                        {% for item, label, colors in burdenset %}
+                                          {
+                                            value: {{ item }},
+                                            label: "{{ label }}",
+                                            color : "{{ colors }}"
+                                          },
+                                        {% endfor %}
+                                      ];
+
+                                      // get bar chart canvas
+                                      var mychart = document.getElementById("chart2").getContext("2d");
+                                      steps = 10
+                                      max = {{ max }}
+
+                                      // draw pie chart
+                                      new Chart(document.getElementById("chart2").getContext("2d")).Pie(pieData);
+
+
+
+                                        </script>
+
                                     </div>
-                                </div>
+
+                                    <div class="col-4">
+                                        <h4>Side Effects</h4>
+                                        <canvas id="chart3" width="200" height="200"></canvas>
+
+                                        <script>
+                                      var pieData = [
+                                        {% for item, label, colors in sideeffectsset %}
+                                          {
+                                            value: {{ item }},
+                                            label: "{{ label }}",
+                                            color : "{{ colors }}"
+                                          },
+                                        {% endfor %}
+                                      ];
+
+                                      // get bar chart canvas
+                                      var mychart = document.getElementById("chart3").getContext("2d");
+                                      steps = 10
+                                      max = {{ max }}
+
+                                      // draw pie chart
+                                      new Chart(document.getElementById("chart3").getContext("2d")).Pie(pieData);
 
 
-                                <div class="form-group">
-                                    <label for="range2">Number of current prescriptions:</label>
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <input type="range" class="custom-range custom-range-teal" min="0" max="10"
-                                                   step="1"
-                                                   value="0"
-                                                   oninput="amount2.value=range2.value" id="range2" name="range2">
-                                        </div>
-                                        <div class="col-auto">
-                                            <output name="amount2" id="amount2" for="range2">0</output>
-                                        </div>
+
+                                        </script>
+
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <p><input type="submit" value="submit"/></p>
-                                </div>
-                            </form>
 
+                                </div>
+                            {% endif %}
 
                         </div>
 
-                        <!-- /.card-body -->
+
                     </div>
-
-                    <!-- /.card -->
-
-                </div>
-
-                <div class="col-6" style="width: auto;">
-
-                                <h4>  </h4> <br>
-                                <h4>  {{ predictions }}  </h4>
-
-
-
-  <img src="{{ image }}"/>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="../static/vendor/jquery/jquery.min.js"></script>
-<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!---- Box --------->
+        <form action="http://127.0.0.1:5000/result" method="POST">
+            <div class="container-fluid" style="height: auto;">
+                <div class="row">
+                    <div class="col">
+                        <div class="card shadow  border-success">
+                            <div class="card-header bg-success">
+                                <h4 class="card-title" style="font-size: 18px !important; line-height: 4px
+                            !important; color: black;  margin-bottom: 5px">
+                                    <strong>Select values</strong>
+                                </h4>
+                            </div>
 
-<!-- Custom scripts for all pages-->
-<script src="../static/js/sb-admin-2.min.js"></script>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="row">
 
-<!-- Page level plugins -->
-<script src="../static/vendor/chart.js/Chart.min.js"></script>
+                                        <div class="col-sm-4">
+                                            <label for="range1">Age:</label>
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input type="range" class="custom-range" min="40" max="90" step="1"
+                                                           value="0"
+                                                           oninput="amount1.value=range1.value" id="range1"
+                                                           name="range1">
+                                                </div>
+                                                <div class="col-auto">
+                                                    <output name="amount1" id="amount1" for="range1">0</output>
+                                                </div>
+                                            </div>
+                                        </div>
 
-<!-- Page level custom scripts -->
-<script src="../static/js/demo/chart-area-demo.js"></script>
-<script src="chart-pie-demo.js"></script>
-<script src="polararea.js"></script>
+
+                                        <div class="col-sm-4">
+                                            <label for="range2">Number of current prescriptions:</label>
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input type="range" class="custom-range custom-range-teal" min="0"
+                                                           max="10"
+                                                           step="1"
+                                                           value="0"
+                                                           oninput="amount2.value=range2.value" id="range2"
+                                                           name="range2">
+                                                </div>
+                                                <div class="col-auto">
+                                                    <output name="amount2" id="amount2" for="range2">0</output>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <label for="range2">Number of provider visits in the past 12 months:</label>
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <input type="number" value="0" name="n_vis">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="col-sm-2">
+                                            <label>Sex:</label>
+                                            <div class="btn-group-lg" data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="sex" id="sexoption1" value="M"> M
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="sex" id="sexoption2" value="F"> F
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-5">
+                                            <label>Would you say your general health is..</label>
+                                            <select class="form-control input-group" name="generalhealth">
+                                                <div class="dropdown-menu input-group-append" data-toggle="dropdown"
+                                                     x-placement="top"
+                                                     style="position: absolute">
+                                                    <option value='Excellent'>Excellent</option>
+                                                    <option value='Very good'>Very good</option>
+                                                    <option value='Good'>Good</option>
+                                                    <option value='Fair'>Fair</option>
+                                                    <option value='Poor'>Poor</option>
+                                                </div>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-5">
+                                            <label>What is your income range?</label>
+                                            <select class="form-control" name="income">
+                                                <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                     x-placement="top"
+                                                     style="position: absolute">
+                                                    <option value='<$50k'>Less than $50k</option>
+                                                    <option value='$50k-75k'>$50k-75k</option>
+                                                    <option value='>$100k '>Greater than $100k</option>
+                                                    <option value='No response/Unknown'>>No response/Refuse</option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <label>How difficult is it for you to take your medication(s)?</label>
+                                        <select class="form-control" name="med_burden">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='Very simple'>Very simple</option>
+                                                <option value='Somewhat simple'>Somewhat simple</option>
+                                                <option value='Somewhat complicated'>Somewhat complicated</option>
+                                                <option value='Very complicated'>>Very complicated</option>
+                                            </div>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Do you have health insurance?</label>
+                                            <div class="btn-group-lg" data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="health_insur" id="heloption1"
+                                                           value="Has health insurance"> Yes
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="health_insur" id="heloption2"
+                                                           value="No health insurance"> No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Medicare?</label>
+                                            <div class="btn-group-lg" data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="medicare" id="medoption1"
+                                                           value="Not eligible"> Not eligible
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="medicare" id="medoption2"
+                                                           value="Medicare">
+                                                    Yes
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="medicare" id="sexoption2"
+                                                           value="No medicare">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <p></p>
+                                <div class="row">
+
+
+                                    <div class="col-sm-6">
+                                        <label>How well do you feel that you understand your health condition(s)
+                                            ?</label>
+                                        <select class="form-control" name="healthprob">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='A great deal'>A great deal</option>
+                                                <option value='Somewhat'>Somewhat</option>
+                                                <option value='Not so much'>Not so much</option>
+                                                <option value='Not at all'>>Not at all</option>
+                                                <option value='Unknown/Refused'>>Not sure/Refused</option>
+
+                                            </div>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>How difficult is it for you to afford your medication?</label>
+                                        <select class="form-control" name="afford_rx">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='Very easy'>Very easy</option>
+                                                <option value='Somewhat easy'>Somewhat easy</option>
+                                                <option value='Somewhat difficult'>Somewhat difficult</option>
+                                                <option value='Very difficult'>Very difficult</option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <p></p>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label>How close do you live to a metro area?</label>
+                                        <select class="form-control" name="metro">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='Center City'>Center City</option>
+                                                <option value='Non-Center City(Metro)'>Non-Center City(Metro)
+                                                </option>
+                                                <option value='Suburban(Metro)'>Suburban(Metro)</option>
+                                                <option value='Non-city'>Non-city</option>
+                                            </div>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label> </label>
+                                            <div></div>
+                                            <div class="btn-group-lg btn-group">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="ownhome" id="option1"
+                                                           value="Homeowner"> Homeowner
+                                                </label>
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="radio" name="ownhome" id="option2" value="Renter">
+                                                    Renter
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <label>Marital status:</label>
+                                        <select class="form-control" name="mstatus">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='Married'>Married</option>
+                                                <option value='Widowed'>Widowed</option>
+                                                <option value='Divorced'>Divorced</option>
+                                                <option value='Single'>Single</option>
+                                                <option value='Single partnered'>Partnered</option>
+                                                <option value='Separated'>Separated</option>
+                                                <option value='Refused'>No answer</option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <label>Employment status:</label>
+                                        <select class="form-control" name="emply">
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='Retired'>Retired</option>
+                                                <option value='Full-time'>Full-time</option>
+                                                <option value='Part-time'>Part-time</option>
+                                                <option value='Disabled'>>Disabled</option>
+                                                <option value='Homemaker'>>Homemaker</option>
+                                                <option value='Student'>>Student</option>
+                                                <option value='Temp unemployed'>>Temporarily unemployed</option>
+                                                <option value='Other/Refused'>>Other/Refused</option>
+
+
+                                            </div>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col-sm-5">
+                                        <label>Education:</label>
+                                        <select class="form-control" name="educ" required>
+                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                 x-placement="top"
+                                                 style="position: absolute">
+                                                <option value='Less than high school'>Less than high school
+                                                </option>
+                                                <option value='High school'>High school</option>
+                                                <option value='Some college'>Some college</option>
+                                                <option value='Technical school/other'>Technical school/other
+                                                </option>
+                                                <option value='College graduate'>College graduate</option>
+                                                <option value='Graduate school or more'>Graduate school or more
+                                                </option>
+                                            </div>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+
+                                <p></p>
+
+
+                                <div class="row">
+                                    <label>Please indicate if you have any of the following health
+                                        conditions:</label>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="checkbox" name="diabetes" id="coption1"
+                                                           value="Yes"> Diabetes
+                                                </label>
+                                                <input type="hidden" name="diabetes" id="coption1" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+
+                                                    <input type="checkbox" name="hypertension" id="coption2"
+                                                           value="Yes">
+                                                    Hypertension
+                                                </label>
+                                                <input type="hidden" name="hypertension" id="coption2" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="checkbox" name="lung_cond" id="coption3"
+                                                           value="Yes">
+                                                    Asthma, bronchitis, emphysema, or any other lung
+                                                    condition
+                                                </label>
+                                                <input type="hidden" name="lung_cond" id="coption3" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+                                                    <input type="checkbox" name="heart_cond" id="coption4"
+                                                           value="Yes">
+                                                    Heart disease, heart failure or any other heart
+                                                    problem
+                                                </label>
+                                                <input type="hidden" name="heart_cond" id="coption4" value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <div class="form-group">
+                                            <div class="btn-group-lg " data-toggle="buttons">
+                                                <label class="btn bg-light border-dark">
+
+                                                    <input type="checkbox" name="hi_cholesterol" id="coption5"
+                                                           value="Yes"/>
+                                                    High cholesterol
+                                                </label>
+                                                <input type="hidden" name="hi_cholesterol" id="hidden_coption5"
+                                                       value="No">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <p></p>
+
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <p><input type="submit" value="Submit"/></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <!-- /.card -->
+
+
+        </form>
+
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="../static/vendor/jquery/jquery.min.js"></script>
+        <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="../static/js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="../static/js/demo/chart-area-demo.js"></script>
+        <script src="../static/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

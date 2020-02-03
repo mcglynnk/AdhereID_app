@@ -1,215 +1,108 @@
-
-
-
+# Setup
 from flask import Flask, render_template, request
 
+# Initialize application
 application = Flask(__name__)
 
-'''
-# prediction function 
-def ValuePredictor(to_predict_list): 
-    to_predict = np.array(to_predict_list).reshape(1, 12) 
-    loaded_model = pickle.load(open("model.pkl", "rb")) 
-    result = loaded_model.predict(to_predict) 
-    return result[0] 
-'''
-# def chart(numbers):
-
-'''
-@app.route('/result', methods = ['POST']) 
-def result(): 
-    if request.method == 'POST': 
-        to_predict_list = request.form.to_dict() 
-        to_predict_list = list(to_predict_list.values()) 
-        to_predict_list = list(map(int, to_predict_list)) 
-        result = ValuePredictor(to_predict_list)         
-        if int(result)== 1: 
-            prediction ='Income more than 50K'
-        else: 
-            prediction ='Income less that 50K'            
-        return render_template("result.html", prediction = prediction) 
-
-'''
-
-from flask import Flask, Markup, render_template
-
-application = Flask(__name__)
-
-
-@application.route('/', methods=['POST', 'GET'])
-def home1():
-    return render_template("index.html")
-
-
-# ML Model
-import pickle
-
-filename = r'nmodel.sav'
-with open(filename, 'rb') as file:
-    dt_model = pickle.load(file)
-
-from collections import OrderedDict
+# Setup
 import pandas as pd
 import numpy as np
+import pickle
+
+# Home page
+@application.route('/', methods=['POST', 'GET'])
+def home1():
+    condfile = r'C:\Users\Kelly\Documents\Python\AdhereID_app_charts\cond_list.txt'
+    with open(condfile, 'rb') as f:
+        cond_list = pickle.load(f)
+
+    return render_template("index.html", cond_list=cond_list)
+
+# Load ML Model
+filename = r'lr_model.sav'
+with open(filename, 'rb') as file:
+    lr_model = pickle.load(file)
 
 
-# X = pd.read_csv(r'C:\Users\Kelly\Documents\Python\streamlit_app\X.csv')
+# Import functions for cleaning input data
+from functions import make_input_df, process_data
+from required_files import X
 
-# features = X.loc[range(50)]
-# features_display = X.loc[features.index]
-
-labels = [
-    'opt1', 'opt2', 'opt3'
-]
-
-colors = [
-    "#F7464A", "#46BFBD", "#FDB45C"]
+# Import functions for getting the medical condition cost, burden, side effects (for pie charts)
+from functions import get_condition_cost, get_condition_burden, get_condition_sideeffects
+from required_files import plm
 
 
-
+show_charts=False
 @application.route('/result', methods=['POST', 'GET'])
 def result1():
+    global show_charts
+
     if request.method == 'POST':
 
         result_list = request.form.to_dict()
         result_list = list(result_list.values())
-        print('result list', result_list)
+        print('result list: ', result_list)
+        result_list_without_condition = result_list[0:-1]
 
-        inputs = OrderedDict()
+        try:
+            inputs_df = make_input_df(result_list_without_condition)
+        except ValueError as e:
+            return "Please fill out all the fields!"
 
-        # Age
-        inputs['age'] = result_list[0]
+        inputs_df_with_X = process_data(X, inputs_df)
 
-        # Sex
-        sex = result_list[3]
-        if sex == 'M':
-            sex = 1.0
-        elif sex == 'F':
-            sex = 2.0
+        inputs_df_with_X_array = np.array(inputs_df_with_X.iloc[0,]).reshape(1, 52)
+
+        predictions = lr_model.predict(inputs_df_with_X_array)
+
+        if predictions == 1.0:
+            predictions = "High risk of non-adherence!"
+        elif predictions == 0:
+            predictions = "Low risk of non-adherence!"
         else:
             None
-        inputs['sex'] = sex
-
-        # Num of rx
-        inputs['n_rx'] = result_list[2]
-
-        # N provider visits
-        inputs['n_provider_visits'] = result_list[1]
-
-        # Gen health
-        inputs['general_health'] = result_list[4]
-        gen_val = {
-            'Excellent': 1,
-            'Very good':2,
-            'Good':3,
-            'Fair':4,
-            'Poor':5,
-        }
-        # inputs['genera_health'].replace(gen_val, inplace=True)
-
-        # Income
-        inputs['income'] = result_list[5]
 
 
-        inputs_df = pd.DataFrame([inputs], columns=inputs.keys())
-        inputs_array = np.array(inputs_df)
+        condfile = r'C:\Users\Kelly\Documents\Python\AdhereID_app_charts\cond_list.txt'
+        with open(condfile, 'rb') as f:
+            cond_list = pickle.load(f)
 
-        # predictions = dt_model.predict(inputs_array)
+        if 'Select a condition' not in result_list:
+            show_charts = True
+        else:
+            None
+        print(result_list)
+        if show_charts==True:
+            colors = [
+                "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
+                "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
+                "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
 
+            costlabels, costvalues = get_condition_cost(plm, result_list[-1])
+            costcolors = colors[0:len(costlabels)]
 
-        # inputs_list = [sex, result_list[0], result_list[2]]
-        # X.loc[len(X.index) + 1] = inputs_list
-        # import warnings
-        # with warnings.catch_warnings():
-        #     warnings.simplefilter("ignore")
-        #     shap_values = explainer.shap_values(features)[1]
-        #     shap_interaction_values = explainer.shap_interaction_values(features)
-        # if isinstance(shap_interaction_values, list):
-        #     shap_interaction_values = shap_interaction_values[1]
-        # fig = Figure()
+            burdenlabels, burdenvalues = get_condition_burden(plm, result_list[-1])
+            burdencolors = colors[0:len(costlabels)]
 
-        # t = shap.decision_plot(expected_value, shap_values, features_display)
-        # plt.savefig(r'C:\Users\Kelly\Documents\Python\flask_app\static\images\plot.png')
+            sideeffectslabels, sideeffectsvalues = get_condition_sideeffects(plm, result_list[-1])
+            sideeffectscolors = colors[0:len(costlabels)]
+        else:
+            costlabels, costvalues, costcolors = [0],[0],[0]
+            burdenlabels, burdenvalues, burdencolors = [0],[0],[0]
+            sideeffectslabels, sideeffectsvalues, sideeffectscolors = [0],[0],[0]
 
-        # Convert plot to PNG image
-        # pngImage = io.BytesIO()
-        # FigureCanvas(fig).print_png(pngImage)
-        #
-        # # Encode PNG image to base64 string
-        # pngImageB64String = "data:image/png;base64,"
-        # pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
-        #
-        # shap_val_pred = shap_values[len(shap_values) - 1]
-        #
-        # # shap_values = shap.TreeExplainer(dt_model,feature_perturbation='interventional').shap_values(predictions)
-        # # print(shap_values)
-
-        # if predictions == 1.0:
-        #     predictions = "Low risk of non-adherence"
-        # elif predictions == 0:
-        #     predictions = "High risk of non-adherence"
-        # else:
-        #     None
-
+        print(show_charts)
+        # print(labels, values, colors)
         return render_template("result.html", max=17000,
                                predictions=predictions,
-
+                               show_charts= show_charts,
+                               costset=zip(costvalues, costlabels, costcolors),
+                               burdenset=zip(burdenvalues, burdenlabels, burdencolors),
+                               sideeffectsset=zip(sideeffectsvalues, sideeffectslabels, sideeffectscolors),
+                               cond_list=cond_list,
+                               result_list=result_list
                                )
-
-
-
-#
-# # bokeh serve bokeh_obj.py --allow-websocket-origin=localhost:5006 --allow-websocket-origin=localhost:5000 --allow-websocket-origin=127.0.0.1:5000
-# # flask run
-#
-
-
-# @application.route('/x', methods=['POST', 'GET'])
-# def result2():
-#     with pull_session(url="http://localhost:5006/bokeh_obj") as session:
-#         if request.method == 'POST':
-#
-#             result_list = request.form.to_dict()
-#             result_list = list(result_list.values())
-#             print('result list', result_list)
-#
-#             inputs = OrderedDict()
-#
-#             sex = result_list[1]
-#             if sex == 'M':
-#                 sex = 1.0
-#             elif sex == 'F':
-#                 sex = 2.0
-#             else:
-#                 None
-#             inputs['sex'] = sex
-#
-#             inputs['age'] = result_list[0]
-#
-#
-#
-#             inputs['n_rx'] = result_list[2]
-#
-#             #print(inputs)
-#             inputs_df = pd.DataFrame([inputs], columns=inputs.keys())
-#             inputs_array = np.array(inputs_df)
-#             print(inputs_array)
-#             predictions = dt_model.predict(inputs_array)
-#
-#             if predictions == 1.0:
-#                 predictions = "Low risk of non-adherence"
-#             elif predictions == 0:
-#                 predictions = "High risk of non-adherence"
-#             else:
-#                 None
-#
-#             return render_template("result.html", max=17000,
-#                                    predictions=predictions)
-#
-#         # generate a script to load the customized session
-#         script = server_session(None, session.id, url='http://localhost:5006/bokeh_obj')
-#
-#         return render_template("result2.html", script=script, template="Flask")
 
 
 if __name__ == '__main__':
