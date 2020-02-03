@@ -1,6 +1,7 @@
 # My files
 files
 .idea
+required_files.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
