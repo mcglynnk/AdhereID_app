@@ -1,13 +1,14 @@
 # Setup
 from flask import Flask, render_template, request
 
-# Initialize application
-app = Flask(__name__)
-
-# Setup
 import pandas as pd
 import numpy as np
 import pickle
+from required_files import res_url
+
+# Initialize application
+app = Flask(__name__)
+
 
 # Home page
 @app.route('/', methods=['POST', 'GET'])
@@ -17,7 +18,7 @@ def home1():
     with open(condfile, 'rb') as f:
         cond_list = pickle.load(f)
 
-    return render_template("index.html", cond_list=cond_list)
+    return render_template("index.html", cond_list=cond_list, res_url=res_url)
 
 # Load ML Model
 filename = r'lr_model.sav'
@@ -125,3 +126,13 @@ def result1():
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(debug=False, host='0.0.0.0', port=80)
+
+# To deploy, in ubuntu EC2:
+# git clone https://github.com/mcglynnk/AdhereID_app.git
+# cd AdhereID_app
+# tmux
+# sudo python3 app.py
+# Ctrl b, then d - server stays running
+
+# To kill session: tmux kill-session
+# To re-enter session: tmux attach
