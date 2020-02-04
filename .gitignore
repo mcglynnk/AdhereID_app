@@ -2,6 +2,7 @@
 files
 .idea
 required_files.py
+req_files.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

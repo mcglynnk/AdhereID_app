@@ -2,9 +2,10 @@
 from flask import Flask, render_template, request
 
 import pandas as pd
+import sklearn
 import numpy as np
 import pickle
-from required_files import res_url
+from required_files import res_url, conditions_list_file
 
 # Initialize application
 app = Flask(__name__)
@@ -14,7 +15,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def home1():
     # List of available medical conditions for the bottom drop-down menu
-    condfile = r'C:\Users\Kelly\Documents\Python\AdhereID_app_charts\cond_list.txt'
+    condfile = conditions_list_file
     with open(condfile, 'rb') as f:
         cond_list = pickle.load(f)
 
@@ -31,6 +32,7 @@ from required_files import X
 
 # Import functions for getting the medical condition cost, burden, side effects (for pie charts)
 from functions import get_condition_cost, get_condition_burden, get_condition_sideeffects
+from functions import color_cost_chart, color_burden_chart, color_side_effects_chart
 from required_files import plm
 
 show_charts = False
@@ -71,7 +73,7 @@ def result1():
 
         # List of available medical conditions for the bottom drop-down menu, also used to write the result message
         # 'Patients with {} report...'.format(result_list[-1])
-        condfile = r'C:\Users\Kelly\Documents\Python\AdhereID_app_charts\cond_list.txt'
+        condfile = conditions_list_file
         with open(condfile, 'rb') as f:
             cond_list = pickle.load(f)
 
@@ -87,19 +89,22 @@ def result1():
 
         # Generates pie charts from plm data
         if show_charts == True:
-            colors = [
-                "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-                "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-                "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
 
             costlabels, costvalues = get_condition_cost(plm, result_list[-1])
-            costcolors = colors[0:len(costlabels)]
+            cost_vals_labels = list(zip(costvalues, costlabels))
+            costcolors = color_cost_chart(cost_vals_labels)
+            print(costcolors)
 
             burdenlabels, burdenvalues = get_condition_burden(plm, result_list[-1])
-            burdencolors = colors[0:len(costlabels)]
+            burden_vals_labels = list(zip(burdenvalues, burdenlabels))
+            burdencolors = color_burden_chart(burden_vals_labels)
+            print(burdencolors)
 
             sideeffectslabels, sideeffectsvalues = get_condition_sideeffects(plm, result_list[-1])
-            sideeffectscolors = colors[0:len(costlabels)]
+            sideeffects_vals_labels = list(zip(sideeffectsvalues, sideeffectslabels))
+            sideeffectscolors = color_side_effects_chart(sideeffects_vals_labels)
+            print(sideeffectscolors)
+
         else:
             costlabels, costvalues, costcolors = [0], [0], [0]
             burdenlabels, burdenvalues, burdencolors = [0], [0], [0]
@@ -114,9 +119,9 @@ def result1():
                                predictions=predictions,  # ML prediction result
                                # For pie charts:
                                show_charts=show_charts,
-                               costset=zip(costvalues, costlabels, costcolors),
-                               burdenset=zip(burdenvalues, burdenlabels, burdencolors),
-                               sideeffectsset=zip(sideeffectsvalues, sideeffectslabels, sideeffectscolors),
+                               costset=costcolors,
+                               burdenset=burdencolors,
+                               sideeffectsset=sideeffectscolors,
                                # For inserting python variables into the html files:
                                cond_list=cond_list,
                                result_list=result_list

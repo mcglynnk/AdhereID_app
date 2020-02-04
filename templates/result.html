@@ -17,8 +17,9 @@
 
     <!-- Custom styles for this template-->
     <link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-    <script href="templates/chart-pie-demo.js"></script>
+    {#    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
 
 </head>
 
@@ -30,7 +31,6 @@
     <div class="card shadow border-success my-3" style="width: auto; ">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <i class="fas fa-dragon"></i>
                 <h2 class="mt-3"><strong>AdhereID</strong></h2>
                 <p class="lead">Helping doctors predict medication non-adherence!</p>
             </div>
@@ -53,99 +53,93 @@
                                 <div class="row">
 
                                     <div class="col-4">
-                                        <h4>Medication Cost</h4>
-                                        <canvas id="chart1" width="200" height="200"></canvas>
+                                        {#                                        <h4>Medication Cost</h4>#}
+
+                                        <canvas id="chart1" width="300" height="300"></canvas>
 
                                         <script>
-                                      var pieData = [
-                                        {% for item, label, colors in costset %}
-                                          {
-                                            value: {{ item }},
-                                            label: "{{ label }}",
-                                            color : "{{ colors }}"
-                                          },
-                                        {% endfor %}
-                                      ];
 
-                                      // get bar chart canvas
-                                      var mychart = document.getElementById("chart1").getContext("2d");
-                                      steps = 10
-                                      max = {{ max }}
-
-                                      // draw pie chart
-                                      new Chart(document.getElementById("chart1").getContext("2d")).Pie(pieData);
-
-
-
-
-
-
+                                        new Chart(document.getElementById("chart1"), {
+                                            type: 'doughnut',
+                                            data: {
+                                              labels: [{% for i in costset %}"{{ i[1] }}",{% endfor %}],
+                                              datasets: [
+                                                    {
+                {#                              label: "Population (millions)",#}
+                                              backgroundColor: [{% for i in costset %}"{{ i[2] }}",{% endfor %}],
+                                              data: [{% for i in costset %}{{ i[0] }},{% endfor %}]
+                                            }
+                                              ]
+                                            },
+                                            options: {
+                                              title: {
+                                                display: true,
+                                                text: 'Medication Side Effects'
+                                              }
+                                            }
+                                        });
 
                                         </script>
+
 
                                     </div>
 
                                     <div class="col-4">
-                                        <h4>Medication Burden</h4>
-                                        <canvas id="chart2" width="200" height="200"></canvas>
+                                        {#                                        <h4>Medication Burden</h4>#}
+                                        <canvas id="chart2" width="300" height="300"></canvas>
 
                                         <script>
-                                      var pieData = [
-                                        {% for item, label, colors in burdenset %}
-                                          {
-                                            value: {{ item }},
-                                            label: "{{ label }}",
-                                            color : "{{ colors }}"
-                                          },
-                                        {% endfor %}
-                                      ];
 
-                                      // get bar chart canvas
-                                      var mychart = document.getElementById("chart2").getContext("2d");
-                                      steps = 10
-                                      max = {{ max }}
-
-                                      // draw pie chart
-                                      new Chart(document.getElementById("chart2").getContext("2d")).Pie(pieData);
-
-
-
-
-
-
+                                        new Chart(document.getElementById("chart2"), {
+                                            type: 'doughnut',
+                                            data: {
+                                              labels: [{% for i in burdenset %}"{{ i[1] }}",{% endfor %}],
+                                              datasets: [
+                                                    {
+                {#                              label: "Population (millions)",#}
+                                              backgroundColor: [{% for i in burdenset %}"{{ i[2] }}",{% endfor %}],
+                                              data: [{% for i in burdenset %}{{ i[0] }},{% endfor %}]
+                                            }
+                                              ]
+                                            },
+                                            options: {
+                                              title: {
+                                                display: true,
+                                                text: 'Medication Burden'
+                                              }
+                                            }
+                                        });
 
                                         </script>
+
 
                                     </div>
 
                                     <div class="col-4">
-                                        <h4>Side Effects</h4>
-                                        <canvas id="chart3" width="200" height="200"></canvas>
+                                        {#                                        <h4>Side Effects</h4>#}
+                                        <canvas id="chart3" width="300" height="300"></canvas>
 
                                         <script>
-                                      var pieData = [
-                                        {% for item, label, colors in sideeffectsset %}
-                                          {
-                                            value: {{ item }},
-                                            label: "{{ label }}",
-                                            color : "{{ colors }}"
-                                          },
-                                        {% endfor %}
-                                      ];
 
-                                      // get bar chart canvas
-                                      var mychart = document.getElementById("chart3").getContext("2d");
-                                      steps = 10
-                                      max = {{ max }}
-
-                                      // draw pie chart
-                                      new Chart(document.getElementById("chart3").getContext("2d")).Pie(pieData);
-
-
-
-
-
-
+                                        new Chart(document.getElementById("chart3"), {
+                                            type: 'doughnut',
+                                            data: {
+                                              labels: [{% for i in sideeffectsset %}"{{ i[1] }}",{% endfor %}],
+                                              datasets: [
+                                                    {
+                {#                              label: "Population (millions)",#}
+                                              backgroundColor: [{% for i in sideeffectsset %}"{{ i[2] }}",{% endfor %}],
+                                              data: [{% for i in sideeffectsset %}{{ i[0] }},{% endfor %}]
+                                            }
+                                              ]
+                                            },
+                                            options: {
+                                              title: {
+                                                display: true,
+                                                text: 'Medication Side Effects'
+                                              }
+                                            }
+                                        });
 
                                         </script>
 
