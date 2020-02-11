@@ -22,7 +22,7 @@ def home1():
     return render_template("index.html", cond_list=cond_list, res_url=res_url)
 
 # Load ML Model
-filename = r'lr_model.sav'
+filename = r'files/lr_model.sav'
 with open(filename, 'rb') as file:
     lr_model = pickle.load(file)
 
