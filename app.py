@@ -59,7 +59,7 @@ def result1():
         # Process input data in order to feed it into the logistic regression model
         inputs_df_with_X = process_data(X, inputs_df)
 
-        inputs_df_with_X_array = np.array(inputs_df_with_X.iloc[0,]).reshape(1, 52)
+        inputs_df_with_X_array = np.array(inputs_df_with_X.iloc[0,]).reshape(1, 22)
 
         predictions = lr_model.predict(inputs_df_with_X_array)
 

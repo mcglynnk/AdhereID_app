@@ -101,6 +101,23 @@
 
                                     <div class="row">
 
+                                        <div class="col-sm-6">
+                                            <label>When did you first start taking a prescription on a regular
+                                                basis?</label>
+                                            <select class="form-control input-group" name="first_taking">
+                                                <div class="dropdown-menu input-group-append" data-toggle="dropdown"
+                                                     x-placement="top"
+                                                     style="position: absolute">
+                                                    <option value='Within the past year'>Within the past year</option>
+                                                    <option value='1 to 2 years ago'>1 to 2 years ago</option>
+                                                    <option value='3 to 5 years ago'>3 to 5 years ago</option>
+                                                    <option value='6 to 10 years ago'>6 to 10 years ago</option>
+                                                    <option value='More than 10 years ago'>More than 10 years ago
+                                                    </option>
+                                                </div>
+                                            </select>
+                                        </div>
+
                                         <div class="col-sm-2">
                                             <label>Sex:</label>
                                             <div class="btn-group-lg" data-toggle="buttons">
@@ -114,7 +131,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-4">
                                             <label>Would you say your general health is..</label>
                                             <select class="form-control input-group" name="generalhealth">
                                                 <div class="dropdown-menu input-group-append" data-toggle="dropdown"
@@ -142,10 +159,8 @@
                                                 </div>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
+
                                     <div class="col-sm-5">
                                         <label>How difficult is it for you to take your medication(s)?</label>
                                         <select class="form-control" name="med_burden">
@@ -160,58 +175,17 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label>Do you have health insurance?</label>
-                                            <div class="btn-group-lg" data-toggle="buttons">
-                                                <label class="btn bg-light border-success">
-                                                    <input type="radio" name="health_insur" id="heloption1"
-                                                           value="Has health insurance" checked> Yes
-                                                </label>
-                                                <label class="btn bg-light border-success">
-                                                    <input type="radio" name="health_insur" id="heloption2"
-                                                           value="No health insurance"> No
-                                                </label>
-                                            </div>
-                                        </div>
                                     </div>
+                                    <p></p>
+                                    <div class="row">
 
 
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label>Medicare?</label>
-                                            <div class="btn-group-lg" data-toggle="buttons">
-                                                <label class="btn bg-light border-success">
-                                                    <input type="radio" name="medicare" id="medoption1"
-                                                           value="Not eligible" checked> Not eligible
-                                                </label>
-                                                <label class="btn bg-light border-success">
-                                                    <input type="radio" name="medicare" id="medoption2"
-                                                           value="Medicare">
-                                                    Yes
-                                                </label>
-                                                <label class="btn bg-light border-success">
-                                                    <input type="radio" name="medicare" id="sexoption2"
-                                                           value="No medicare">
-                                                    No
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-                                <p></p>
-                                <div class="row">
-
-
-                                    <div class="col-sm-6">
-                                        <label>How well do you feel that you understand your health condition(s)
-                                            ?</label>
-                                        <select class="form-control" name="healthprob">
-                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
-                                                 x-placement="top"
+                                        <div class="col-sm-6">
+                                            <label>How well do you feel that you understand your health condition(s)
+                                                ?</label>
+                                            <select class="form-control" name="healthprob">
+                                                <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                     x-placement="top"
                                                  style="position: absolute">
                                                 <option value='A great deal'>A great deal</option>
                                                 <option value='Somewhat'>Somewhat</option>
@@ -236,113 +210,75 @@
                                             </div>
                                         </select>
                                     </div>
-                                </div>
-
-                                <p></p>
-
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>How close do you live to a metro area?</label>
-                                        <select class="form-control" name="metro">
-                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
-                                                 x-placement="top"
-                                                 style="position: absolute">
-                                                <option value='Center City'>Center City</option>
-                                                <option value='Non-Center City(Metro)'>Non-Center City(Metro)
-                                                </option>
-                                                <option value='Suburban(Metro)'>Suburban(Metro)</option>
-                                                <option value='Non-city'>Non-city</option>
-                                            </div>
-                                        </select>
                                     </div>
 
+                                    <p></p>
 
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label> </label>
-                                            <div></div>
-                                            <div class="btn-group-lg btn-group">
-                                                <label class="btn bg-light border-success">
-                                                    <input type="radio" name="ownhome" id="option1"
-                                                           value="Homeowner" checked> Homeowner
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label>Employment status:</label>
+                                            <select class="form-control" name="emply">
+                                                <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                     x-placement="top"
+                                                     style="position: absolute">
+                                                    <option value='Retired'>Retired</option>
+                                                    <option value='Full-time'>Full-time</option>
+                                                    <option value='Part-time'>Part-time</option>
+                                                    <option value='Disabled'>Disabled</option>
+                                                <option value='Homemaker'>Homemaker</option>
+                                                    <option value='Student'>Student</option>
+                                                    <option value='Temp unemployed'>Temporarily unemployed</option>
+                                                    <option value='Other/Refused'>Other/Refused</option>
+
+
+                                                </div>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-sm-4">
+                                            <label>Education:</label>
+                                            <select class="form-control" name="educ" required>
+                                                <div class="dropdown-menu input-group" data-toggle="dropdown"
+                                                     x-placement="top"
+                                                     style="position: absolute">
+                                                    <option value='Less than high school'>Less than high school
+                                                    </option>
+                                                    <option value='High school'>High school</option>
+                                                    <option value='Some college'>Some college</option>
+                                                    <option value='Technical school/other'>Technical school/other
+                                                    </option>
+                                                    <option value='College graduate'>College graduate</option>
+                                                    <option value='Graduate school or more'>Graduate school or more
+                                                    </option>
+                                                </div>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-sm-3">
+                                            <label>Are you a parent?</label>
+                                            <div class="btn-group-lg" data-toggle="buttons">
+                                                <label class="btn border-success bg-light">
+                                                    <input type="radio" name="parent" id="poption1" value="Parent"> Yes
                                                 </label>
                                                 <label class="btn bg-light border-success">
-                                                    <input type="radio" name="ownhome" id="option2" value="Renter">
-                                                    Renter
+                                                    <input type="radio" name="parent" id="poption2" value="Nonparent"
+                                                           checked> No
                                                 </label>
                                             </div>
                                         </div>
+
                                     </div>
 
-                                    <div class="col-sm-4">
-                                        <label>Marital status:</label>
-                                        <select class="form-control" name="mstatus">
-                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
-                                                 x-placement="top"
-                                                 style="position: absolute">
-                                                <option value='Married'>Married</option>
-                                                <option value='Widowed'>Widowed</option>
-                                                <option value='Divorced'>Divorced</option>
-                                                <option value='Single'>Single</option>
-                                                <option value='Single partnered'>Partnered</option>
-                                                <option value='Separated'>Separated</option>
-                                                <option value='Refused'>No answer</option>
-                                            </div>
-                                        </select>
-                                    </div>
-                                </div>
+                                    <p></p>
 
-                                <div class="row">
-                                    <div class="col-sm-5">
-                                        <label>Employment status:</label>
-                                        <select class="form-control" name="emply">
-                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
-                                                 x-placement="top"
-                                                 style="position: absolute">
-                                                <option value='Retired'>Retired</option>
-                                                <option value='Full-time'>Full-time</option>
-                                                <option value='Part-time'>Part-time</option>
-                                                <option value='Disabled'>Disabled</option>
-                                                <option value='Homemaker'>Homemaker</option>
-                                                <option value='Student'>Student</option>
-                                                <option value='Temp unemployed'>Temporarily unemployed</option>
-                                                <option value='Other/Refused'>Other/Refused</option>
-
-
-                                            </div>
-                                        </select>
+                                    <div class="row">
+                                        <label>Please indicate if you have any of the following health
+                                            conditions:</label>
                                     </div>
 
-
-                                    <div class="col-sm-5">
-                                        <label>Education:</label>
-                                        <select class="form-control" name="educ" required>
-                                            <div class="dropdown-menu input-group" data-toggle="dropdown"
-                                                 x-placement="top"
-                                                 style="position: absolute">
-                                                <option value='Less than high school'>Less than high school
-                                                </option>
-                                                <option value='High school'>High school</option>
-                                                <option value='Some college'>Some college</option>
-                                                <option value='Technical school/other'>Technical school/other
-                                                </option>
-                                                <option value='College graduate'>College graduate</option>
-                                                <option value='Graduate school or more'>Graduate school or more
-                                                </option>
-                                            </div>
-                                        </select>
-                                    </div>
-
-                                </div>
-
-                                <p></p>
-
-                                <div class="row">
-                                    <label>Please indicate if you have any of the following health
-                                        conditions:</label>
-                                </div>
-
-                                <div class="row">
+                                    <div class="row">
 
                                     <div class="col-auto">
                                         <div class="form-group">
