@@ -132,12 +132,4 @@ if __name__ == '__main__':
     # app.run(debug=True)
     app.run(debug=False, host='0.0.0.0', port=80)
 
-# To deploy, in ubuntu EC2:
-# git clone https://github.com/mcglynnk/AdhereID_app.git
-# cd AdhereID_app
-# tmux
-# sudo python3 app.py
-# Ctrl b, then d - server stays running
 
-# To kill session: tmux kill-session
-# To re-enter session: tmux attach
