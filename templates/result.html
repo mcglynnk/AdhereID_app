@@ -65,7 +65,6 @@
                                               labels: [{% for i in costset %}"{{ i[1] }}",{% endfor %}],
                                               datasets: [
                                                     {
-                {#                              label: "Population (millions)",#}
                                               backgroundColor: [{% for i in costset %}"{{ i[2] }}",{% endfor %}],
                                               data: [{% for i in costset %}{{ i[0] }},{% endfor %}]
                                             }
@@ -75,9 +74,14 @@
                                               title: {
                                                 display: true,
                                                 text: 'Medication Cost'
+
+
                                               }
                                             }
                                         });
+
+
+
 
 
 
@@ -113,6 +117,9 @@
                                         });
 
 
+
+
+
                                         </script>
 
 
@@ -143,6 +150,9 @@
                                               }
                                             }
                                         });
+
+
+
 
 
                                         </script>

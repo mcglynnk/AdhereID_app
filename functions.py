@@ -13,12 +13,9 @@ from imblearn.over_sampling import SMOTE, ADASYN
 # Functions for cleaning input data
 def make_input_df(inputslist):
     # Test list
-    # rlist = ['50', '1', '2', 'F', 'Excellent', '<$50k', 'Very simple', 'Has health insurance', 'Not eligible',
-    #          'A great deal', 'Very easy', 'Center City', 'Homeowner', 'Married', 'Retired', 'Less than high school',
-    #          'No', 'Yes', 'Yes', 'No', 'No']
-
     # ['18', '0', '0', 'Within the past year', 'M', 'Excellent', '<$50k', 'Very simple', 'A great deal', 'Very easy',
     #  'Retired', 'Less than high school', 'Nonparent', 'No', 'No', 'No', 'No', 'No', 'Select a condition']
+
     cols = ['age', 'n_prescriptions', 'n_provider_visits',
             'first_got_rx', 'sex', 'general_health', 'income', 'med_burden',
             'understand_health_prob', 'can_afford_rx', 'emply', 'educ', 'parent',
@@ -39,13 +36,12 @@ def make_input_df(inputslist):
     return inputslist
 
 
-r = ['18', '0', '0', 'Within the past year', 'M', 'Excellent', '<$50k', 'Very simple', 'A great deal', 'Very easy',
-     'Retired', 'Less than high school', 'Nonparent', 'No', 'No', 'No', 'No', 'No', 'Select a condition']
-r = r[0:-1]
-r = make_input_df(r)
+# r = ['18', '0', '0', 'Within the past year', 'M', 'Excellent', '<$50k', 'Very simple', 'A great deal', 'Very easy',
+#      'Retired', 'Less than high school', 'Nonparent', 'No', 'No', 'No', 'No', 'No', 'Select a condition']
+# r = r[0:-1]
+# r = make_input_df(r)
 
 
-##
 def encode_ordinals(df):
     # df = pd.DataFrame(df)
     # First started taking an rx on a regular basis
@@ -166,15 +162,25 @@ def scale_data(input_data):
     input_data = scaler.fit_transform(input_data)
 
 
+##
+from required_files import plm
+
+
 # Functions for getting the medical condition cost, burden, side effects (for pie charts)
 def get_condition_cost(df, input):
     cost_vals = {
-        '< $25 monthly' : 'Less than $25 monthly'
+        '< $25 monthly': 'Less than $25 monthly'
     }
     df['cost'].replace(cost_vals, inplace=True)
-    cond = df[df['primary_condition']==input].groupby(['cost'])['cost'].describe().to_dict()['count']
+    cond = df[df['primary_condition'] == input].groupby(['cost'])['cost'].describe().to_dict()['count']
+    total_vals = sum(cond.values())
+    perc = [(i / total_vals) * 100 for i in cond.values()]
+    # return cond.keys(), cond.values(), np.floor(perc)
     return cond.keys(), cond.values()
 
+
+# x, v, p = get_condition_cost(plm, 'epilepsy')
+# print(pd.DataFrame([x,v,p]).transpose())
 
 def get_condition_burden(df, input):
     cond = df[df['primary_condition'] == input].groupby(['burden'])['burden'].describe().to_dict()['count']
@@ -186,32 +192,7 @@ def get_condition_sideeffects(df, input):
     return cond.keys(), cond.values()
 
 
-#
-#
-#
-#
-# ##
-#     # Test list
-# rlist = ['50', '1', '2', 'F', 'Excellent', '<$50k', 'Very simple', 'Has health insurance', 'Not eligible',
-#          'A great deal', 'Very easy', 'Center City', 'Homeowner', 'Married', 'Retired', 'Less than high school',
-#          'No', 'Yes', 'Yes', 'No', 'No', 'epilepsy']
-# colors = [
-#                 "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-#                 "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-#                 "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
-#
-# costlabels, costvalues = get_condition_cost(plm, rlist[-1])
-# # costdict = get_condition_cost(plm, rlist[-1])
-# costcolors = colors[0:len(costlabels)]
-#
-# cl = list(zip(costvalues, costlabels, costcolors))
-# bd = cl = list(zip(costvalues, costlabels, costcolors))
-# cl2 = list(zip(costvalues, costlabels))
-# dict(zip(costvalues, costlabels, costcolors))
-#
-# ##
-
-
+##
 from colour import Color
 
 red = Color("red")
@@ -295,26 +276,3 @@ def color_side_effects_chart(vals_labels):
             sideeffectslist.append(tuple(i))
 
     return sideeffectslist
-
-# color_pie_charts('cost', vals_labels=cl2)
-
-
-# def color_pie_charts(piechart):
-#     if piechart=='cost':
-#         new_dict = {}
-#
-#         colordict_ = {'Less than $25 monthly': '#ABCDEF',
-#                       '$25-49 monthly':'#FDB45C'
-#                       }
-#
-#         colorlist = []
-#         for k in colordict_:
-#             if k in costdict.keys():
-#                 colorlist.append(colordict_[k])
-#                 #new_dict[k] = new_dict[k] + v
-#
-#         print(colorlist)
-#         print(costdict)
-#         print(list(zip(costvalues, costlabels, colorlist)))
-#
-# color_pie_charts('cost')

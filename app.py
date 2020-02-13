@@ -21,6 +21,7 @@ def home1():
 
     return render_template("index.html", cond_list=cond_list, res_url=res_url)
 
+
 # Load ML Model
 filename = r'files/lr_model.sav'
 with open(filename, 'rb') as file:
@@ -110,10 +111,6 @@ def result1():
             burdenlabels, burdenvalues, burdencolors = [0], [0], [0]
             sideeffectslabels, sideeffectsvalues, sideeffectscolors = [0], [0], [0]
 
-        # Testing
-        # print(show_charts)
-        # print(labels, values, colors)
-
         # Return the results page!
         return render_template("result.html", max=17000,
                                predictions=predictions,  # ML prediction result
@@ -131,5 +128,3 @@ def result1():
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run(debug=False, host='0.0.0.0', port=80)
-
-
