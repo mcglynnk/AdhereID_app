@@ -22,3 +22,5 @@ Built with:
     
 ## License    
 This project is licensed under the MIT License - see the LICENSE.md file for details.
+    
+Kelly McGlynn, 2020
