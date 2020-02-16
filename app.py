@@ -21,6 +21,9 @@ def home1():
 
     return render_template("index.html", cond_list=cond_list, res_url=res_url)
 
+@app.route('/slides', methods=['POST', 'GET'])
+def pres():
+    return render_template("pres.html")
 
 # Load ML Model
 filename = r'files/lr_model.sav'
