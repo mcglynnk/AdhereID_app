@@ -181,7 +181,8 @@ def result1():
                             s = soup.find('h2', text=re.compile(".+[a-zA-Z] side effects")).parent.get('id')
 
                         nav_d = ["HowTake" if d != "directions" else "directions"][0]
-                        nav_s = ["SideEffects" if d != "sideEffects" else "sideEffects"][0]
+                        nav_s = ["SideEffects" if s != "sideEffects" else "sideEffects"][0]
+                        print(nav_d, nav_s)
 
                 print(drug_url)
         else:
