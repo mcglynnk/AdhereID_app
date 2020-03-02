@@ -1,5 +1,10 @@
 import pandas as pd
+
+pd.options.display.max_columns = 20
+pd.options.display.width = 200
+
 import numpy as np
+from _collections import OrderedDict
 
 from sklearn.preprocessing import StandardScaler, LabelEncoder, StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -153,46 +158,53 @@ def process_data(X_original, x_input):
     return processed_df
 
 
-# from required_files import X
-# X_comb = process_data(X, r)
-
 def scale_data(input_data):
     # Feature Scaling
     scaler = StandardScaler()
     input_data = scaler.fit_transform(input_data)
 
 
-##
 from required_files import plm
 
-
 # Functions for getting the medical condition cost, burden, side effects (for pie charts)
-def get_condition_cost(df, input):
+def get_cost(df, input, condition_or_drug):
+    if condition_or_drug == 'condition':
+        col = 'primary_condition'
+    elif condition_or_drug == 'drug':
+        col = 'drug_name'
+
     cost_vals = {
         '< $25 monthly': 'Less than $25 monthly'
     }
     df['cost'].replace(cost_vals, inplace=True)
-    cond = df[df['primary_condition'] == input].groupby(['cost'])['cost'].describe().to_dict()['count']
+    cond = df[df[col] == input].groupby(['cost'])['cost'].describe().to_dict()['count']
     total_vals = sum(cond.values())
     perc = [(i / total_vals) * 100 for i in cond.values()]
     # return cond.keys(), cond.values(), np.floor(perc)
     return cond.keys(), cond.values()
 
 
-# x, v, p = get_condition_cost(plm, 'epilepsy')
-# print(pd.DataFrame([x,v,p]).transpose())
+def get_burden(df, input, condition_or_drug):
+    if condition_or_drug == 'condition':
+        col = 'primary_condition'
+    elif condition_or_drug == 'drug':
+        col = 'drug_name'
 
-def get_condition_burden(df, input):
-    cond = df[df['primary_condition'] == input].groupby(['burden'])['burden'].describe().to_dict()['count']
+    cond = df[df[col] == input].groupby(['burden'])['burden'].describe().to_dict()['count']
     return cond.keys(), cond.values()
 
 
-def get_condition_sideeffects(df, input):
-    cond = df[df['primary_condition'] == input].groupby(['side_effects'])['side_effects'].describe().to_dict()['count']
+def get_sideeffects(df, input, condition_or_drug):
+    if condition_or_drug == 'condition':
+        col = 'primary_condition'
+    elif condition_or_drug == 'drug':
+        col = 'drug_name'
+
+    cond = df[df[col] == input].groupby(['side_effects'])['side_effects'].describe().to_dict()['count']
     return cond.keys(), cond.values()
 
 
-##
+
 from colour import Color
 
 red = Color("red")
@@ -276,3 +288,17 @@ def color_side_effects_chart(vals_labels):
             sideeffectslist.append(tuple(i))
 
     return sideeffectslist
+
+
+# For reporting the maximum value in each category
+def return_max_value(type_, vals_labels):
+    res = OrderedDict()
+
+    max_ = max(vals_labels)
+    total = sum([i[0] for i in vals_labels])
+
+    res['type'] = type_
+    res['val'] = max_[1].lower()
+    res['percent'] = round(max_[0] / total * 100, 1)
+
+    return res

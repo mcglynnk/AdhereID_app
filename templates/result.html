@@ -61,6 +61,7 @@
         </div>
     </nav>
     <!-- /.navbar -->
+    <!-- /.navbar -->
 
     <div class="content-wrapper" style="background: transparent">
         <!-- Page Content -->
@@ -68,10 +69,18 @@
         <div class="container-fluid">
             <div class="card shadow border-success my-3" style="width: auto; ">
                 <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h2 class="mt-3" style="color: black"><strong>AdhereID</strong></h2>
-                        <p class="lead">Helping doctors predict medication non-adherence!</p>
+                    <div class="col-4"></div>
+                    <div class="col-1">
+                        <img src="../static/img/logo.PNG" height="65" width="65" alt="adhere-id-logo">
                     </div>
+                    <div class="col-6 text-left">
+                        <h2 class="mt-3" style="color: black"><strong>AdhereID</strong></h2>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg text-center"
+                    <p class="lead">Helping healthcare providers predict medication non-adherence!</p>
                 </div>
 
                 <div class="container-fluid" style="height: auto; width: border-box">
@@ -80,13 +89,20 @@
                             <div class="card shadow  border-success">
                                 <div class="card-header bg-success">
                                     <h4 class="card-title"
-                                        style="font-size: 18px !important; color: black;  margin-bottom: 5px">
+                                        style="font-size: 16px ; color: black;  margin-bottom: 5px;
+                                                height: 40px">
                                         <h2 style="color: black"><strong>  {{ predictions }} </strong></h2>
                                     </h4>
                                 </div>
                                 <div class="card-body">
-                                    {% if show_charts == True %}
-                                        <h4> {{ 'Patients with {} report...'.format(result_list[-1]) }}</h4>
+                                    {% if show_charts %}
+                                        {% if not drug_selected_ %}
+                                            <h4 style="color: black">
+                                                {{ 'Patients with {} report...'.format(result_list[-2]) }}</h4>
+                                        {% elif drug_selected_ %}
+                                            <h4 style="color: black">
+                                                {{ 'Patients taking {} report...'.format(result_list[-1]) }}</h4>
+                                        {% endif %}
 
                                         <div class="row">
 
@@ -126,8 +142,11 @@
 
 
 
-                                                </script>
 
+
+
+
+                                                </script>
 
                                             </div>
 
@@ -143,7 +162,7 @@
                                               labels: [{% for i in burdenset %}"{{ i[1] }}",{% endfor %}],
                                               datasets: [
                                                     {
-                {#                              label: "Population (millions)",#}
+
                                               backgroundColor: [{% for i in burdenset %}"{{ i[2] }}",{% endfor %}],
                                               data: [{% for i in burdenset %}{{ i[0] }},{% endfor %}]
                                             }
@@ -164,8 +183,12 @@
 
 
 
-                                                </script>
 
+
+
+
+
+                                                </script>
 
                                             </div>
 
@@ -181,7 +204,7 @@
                                               labels: [{% for i in sideeffectsset %}"{{ i[1] }}",{% endfor %}],
                                               datasets: [
                                                     {
-                {#                              label: "Population (millions)",#}
+
                                               backgroundColor: [{% for i in sideeffectsset %}"{{ i[2] }}",{% endfor %}],
                                               data: [{% for i in sideeffectsset %}{{ i[0] }},{% endfor %}]
                                             }
@@ -202,6 +225,12 @@
 
 
 
+
+
+
+
+
+
                                                 </script>
 
                                             </div>
@@ -210,47 +239,150 @@
                                         </div>
                                     {% endif %}
 
+                                    <br>
+                                    <br>
+
+                                    {% if not skip_charts %}
+                                        <div class="row small-box border-success">
+                                        <div class="col-auto ">
+                                        <h5 style="color: black">
+
+                                        {% if not drug_selected_ %}
+                                            Most patients with this medical condition report that they spend
+                                            <strong> {{ max_res_df_.iloc[0]['val'] }}
+                                                ({{ max_res_df_.iloc[0]['percent'] }}%) </strong>
+                                            on their medication(s), and that their medication(s) are
+                                            <strong> {{ max_res_df_.iloc[1]['val'] }}
+                                                ({{ max_res_df_.iloc[1]['percent'] }}%)</strong>.
+                                            Side effects are most often
+                                            <strong> {{ max_res_df_.iloc[2]['val'] }}
+                                                ({{ max_res_df_.iloc[2]['percent'] }}%)</strong>.
+
+                                        {% elif drug_selected_ %}
+                                            Most patients taking this medication report spending
+                                            <strong> {{ max_res_df_.iloc[0]['val'] }}
+                                                ({{ max_res_df_.iloc[0]['percent'] }}%)</strong>, and that this
+                                            medication is
+                                            <strong> {{ max_res_df_.iloc[1]['val'] }}
+                                                ({{ max_res_df_.iloc[1]['percent'] }}%)</strong>.
+                                            Side effects are most often
+                                            <strong> {{ max_res_df_.iloc[2]['val'] }}
+                                                ({{ max_res_df_.iloc[2]['percent'] }}%)</strong>.
+                                        {% endif %}
+                                    {% endif %}
+
+
+                                    <br>
+
+                                    </h5>
+                                    </div>
+                                    </div>
+
+
+                                    {% if not skip_charts %}
+                                        <div class="card border-success">
+                                        <br>
+                                        <h4 class="card-header" style="color: #01cb89; margin-top: -23px;">
+
+                                            <strong>
+                                                {% if not drug_selected_ %}
+                                                    Drugs used to treat {{ result_list[-2] }}:
+                                                {% elif drug_selected_ %}
+                                                    Further information on {{ result_list[-1] }}:
+                                                {% endif %}
+                                            </strong>
+
+                                        </h4>
+
+                                        <div class="col-sm"><h6>Source: Drugs.com</h6></div>
+
+                                        <div class="col-lg align-items-center">
+
+                                        {% if not drug_selected_ %}
+
+                                            <div style="border: 2px solid black; overflow: hidden; margin: 15px
+                                                                auto; max-width: 1020px; margin-top: -5px;">
+                                                {#                                                        <iframe src="https://www.drugs.com/condition/{{ result_list[-2]#}
+                                                {#                                                                    .replace(' ','-').replace("'",'-') }}#}
+                                                {#                                                   .html?category_id=&include_rx=true&include_otc=true#conditionBoxWrap"#}
+                                                <iframe src="{{ condition_url_+"#conditionBoxWrap" }}"
+                                                        style="border: 0px none; margin-left:
+                                                                 -10px; height: 400px; margin-top: 0px;
+                                                                 width: 1020px;">
+                                                </iframe>
+                                            </div>
+
+
+                                        {% elif drug_selected_ %}
+                                            <div class="row align-content-center"
+                                                 style="border: 2px solid black; overflow: hidden;
+                                                         max-width: 1020px; margin: 0px auto 15px;">
+
+                                                <iframe src="{{ drug_url_+ "#" + nav_d_ }}"
+                                                        style="border: 0px none; margin-left: -10px;
+                                                                    height: 275px; margin-top: -15px;
+                                                                    width: 1020px;">
+                                                </iframe>
+                                            </div>
+
+                                            <div class="row align-content-center"
+                                                 style="border: 2px solid black; overflow: hidden;
+                                                         max-width: 1020px; margin: 0px auto 15px;">
+                                                <iframe src="{{ drug_url_+ "#" + nav_s_ }}"
+                                                        style="border: 0px none; margin-left: -10px;
+                                                                    height: 275px; margin-top: -15px;
+                                                                    width: 1020px;">
+                                                </iframe>
+                                            </div>
+
+
+                                        {% endif %}
+                                    {% endif %}
+                                    </div>
+
+                                    </div>
                                 </div>
-                                <!-- /.card body -->
-
                             </div>
-                            <!-- /.card -->
-                            <p></p>
-                        </div>
+                            <!-- /.card body -->
 
+                        </div>
+                        <!-- /.card -->
+                        <p></p>
                     </div>
+
                 </div>
             </div>
         </div>
-
-
-        <footer class="footer bg-gray-200">
-            <div class="container my-sm-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Kelly McGlynn © 2020</span>
-                </div>
-            </div>
-        </footer>
-
     </div>
 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="../static/vendor/jquery/jquery.min.js"></script>
-    <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <footer class="footer bg-gray-200">
+        <div class="container my-sm-auto">
+            <div class="copyright text-center my-auto">
+                <span>Kelly McGlynn © 2020</span>
+            </div>
+        </div>
+    </footer>
 
-    <!-- Core plugin JavaScript-->
-    <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+</div>
 
-    <!-- Custom scripts for all pages-->
-    <script src="../static/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="../static/vendor/chart.js/Chart.min.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="../static/js/demo/chart-area-demo.js"></script>
-    <script src="../static/js/demo/chart-pie-demo.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../static/js/demo/chart-area-demo.js"></script>
+<script src="../static/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
