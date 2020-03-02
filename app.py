@@ -48,7 +48,7 @@ from required_files import X
 from functions import get_cost, get_burden, get_sideeffects
 from functions import color_cost_chart, color_burden_chart, color_side_effects_chart
 from functions import return_max_value
-from required_files import plm, drugbank_df
+from required_files import plm
 
 
 @app.route('/result', methods=['POST', 'GET'])
