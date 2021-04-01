@@ -9,7 +9,7 @@ Click==7.0
 cloudpickle==1.2.2
 colorama==0.4.3
 colour==0.1.5
-cryptography==3.2
+cryptography==3.3.2
 cycler==0.10.0
 cytoolz==0.10.1
 dask==2.10.1
