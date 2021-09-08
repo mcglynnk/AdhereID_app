@@ -42,7 +42,7 @@ olefile==0.46
 pandas==1.0.0
 parso==0.6.0
 pickleshare==0.7.5
-Pillow==8.1.1
+Pillow==8.3.2
 prompt-toolkit==3.0.3
 pycparser==2.19
 Pygments==2.7.4
